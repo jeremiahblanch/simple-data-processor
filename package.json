@@ -11,5 +11,8 @@
     "data-process"
   ],
   "author": "Jeremiah Blanch",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
 }
