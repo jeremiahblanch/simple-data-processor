@@ -1,8 +1,15 @@
 {
   "name": "simple-data-processor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Tool for processing data from one structure to another, for example for Object Relational Mapping (ORM)",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JeremiahBlanch/simple-data-processor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JeremiahBlanch/simple-data-processor/issues"
+  },
   "scripts": {
     "build": "npx tsc",
     "build-publish": "npm run build && npm run publish-to-npm",
