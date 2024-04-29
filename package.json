@@ -18,7 +18,8 @@
   "scripts": {
     "build": "tsup",
     "build-publish": "npm run build && npm run publish-to-npm",
-    "publish-to-npm": "npm publish --access public"
+    "publish-to-npm": "npm publish --access public",
+    "test": "jest"
   },
   "keywords": [
     "orm",
@@ -27,6 +28,9 @@
   "author": "Jeremiah Blanch",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
   }
