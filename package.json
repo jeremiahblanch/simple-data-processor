@@ -1,10 +1,12 @@
 {
   "name": "simple-data-processor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Tool for processing data from one structure to another, for example for Object Relational Mapping (ORM)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx tsc",
+    "build-publish": "npm run build && npm run publish-to-npm",
+    "publish-to-npm": "npm publish --access public"
   },
   "keywords": [
     "orm",
