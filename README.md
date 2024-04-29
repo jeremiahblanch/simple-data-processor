@@ -34,6 +34,7 @@ Create a new instance of the `SimpleDataProcessor` class and pass it a configura
 ```
 The instance will then expose 2 conversion functions `convertToMine()` and `convertToTheirs()`.
 
+## Processing
 You can also define `preProcess` and `postProcess` functions, like
 ```javascript
 {
@@ -45,8 +46,9 @@ You can also define `preProcess` and `postProcess` functions, like
   }
 }
 ```
-
-Note, the functions in fields will receive their values from the output of the preProcess function.
+The functions in fields will receive their values from the output of the `preProcess` function. 
+The `postProcess` function will recieve its data from the output of the field mappings.
+Note, for a field to be available within `postProcess`, it must be defined within `fields`. (You can always remove it from the returned object if you don't want it in the final object).
 
 ## Example
 
@@ -63,7 +65,7 @@ const sdp = new SimpleDataProcessor({
       fullName: ({ firstName, lastName }) => [firstName, lastName].join(' '),
 
       // create the value of age by subtracting dateOfBirth from now
-      age: ({dateOfBirth}) => (new Date() - new Date(dateOfBirth) / (365 * 24 * 60 * 60)),
+      age: ({dateOfBirth}) => (Number(new Date()) - Number(new Date(dateOfBirth))) / (365 * 24 * 60 * 60 * 1000),
 
       // dateOfBirth is just mapped straight to their dataOfBirth field
       dateOfBirth: 'dateOfBirth',
@@ -84,17 +86,19 @@ const sdp = new SimpleDataProcessor({
         ...fields
       }
     }),
-    // refers to the firstName field on the **preprocessed data**, not the original data, which doesn't have that field
-    firstName: 'firstName',
-    // refers to the lastName field on the **preprocessed data**, not the original data, which doesn't have that field
-    lastName: 'lastName',
+    fields {
+      // refers to the firstName field on the **preprocessed data**, not the original data, which doesn't have that field
+      firstName: 'firstName',
+      // refers to the lastName field on the **preprocessed data**, not the original data, which doesn't have that field
+      lastName: 'lastName',
 
-    //these field names are the same
-    dateOfBirth: 'dateOfBirth',
+      //these field names are the same
+      dateOfBirth: 'dateOfBirth',
 
-    //handle spelling change
-    favorite_food: 'favoriteFood',
-  }
+      //handle spelling change
+      favorite_food: 'favoriteFood',
+    },
+  },
 });
 
 // ...
