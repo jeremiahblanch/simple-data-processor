@@ -1,5 +1,7 @@
 # Simple Data Processor
 
+[Find on NPM](https://www.npmjs.com/package/simple-data-processor)
+
 Tool for converting data between two formats: *mine* and *theirs*. Define the field names on each side and how the value for that field will be calculated:
 1. a string means just get the value of the field named with that string, or
 1. a function means run the function, passing the whole object, with the returned result being the value. 
@@ -8,7 +10,7 @@ Supports preprocessing and postprocessing the data to allow you to do common cal
 
 ## Installation
 ```
-npm install @jeremiahblanch/simple-data-processor
+npm install simple-data-processor
 ```
 
 ## Usage
@@ -49,7 +51,7 @@ Note, the functions in fields will receive their values from the output of the p
 ## Example
 
 ```javascript
-import SimpleDataProcessor from '@jeremiahblanch/simple-data-processor'
+import SimpleDataProcessor from 'simple-data-processor'
 
 // Setup with configuration
 const sdp = new SimpleDataProcessor({
