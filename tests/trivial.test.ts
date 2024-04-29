@@ -16,10 +16,10 @@ const sdp = new SimpleDataProcessor({
   }
 });
 
-test('correctly maps a simple object from theirs to mine', () => {
+test('correctly maps a trivial object from theirs to mine', () => {
   expect(sdp.convertToMine(theirData)).toStrictEqual(myData);
 });
 
-test('correctly maps a simple object from mine to theirs', () => {
+test('correctly maps a trivial object from mine to theirs', () => {
   expect(sdp.convertToTheirs(myData)).toStrictEqual(theirData);
 });
