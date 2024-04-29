@@ -27,7 +27,7 @@ Create a new instance of the `SimpleDataProcessor` class and pass it a configura
   },
   theirs: {
     fields: {
-      // same thing as above, but reverse
+      // same thing as above, but reversed
      },
   }
 }
@@ -42,7 +42,7 @@ You can also define `preProcess` and `postProcess` functions, like
     // optional processing done before fields are individually processd
     preProcess: (theirObject) => augmentedTheirObject,
     fields: { },
-    postProcess (myObject) => enahcnedMyObject
+    postProcess (myObject) => enhancedMyObject,
   }
 }
 ```
