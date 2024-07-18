@@ -1,13 +1,13 @@
 import { SPDObjectProcessor, ConsumerRuleSet, SDPRuleSet, StringKeyedObject, FieldValueOrProcessor } from "./types";
 
-const passThroughProcessor: SPDObjectProcessor = (arg0: unknown) => arg0;
+const passThroughProcessor: SPDObjectProcessor = (arg0) => arg0;
 
 export class SimpleDataProcessor<TMine extends StringKeyedObject, TTheirs extends StringKeyedObject> {
-  mine: ConsumerRuleSet
-  theirs: ConsumerRuleSet
+  mine: ConsumerRuleSet<TMine>
+  theirs: ConsumerRuleSet<TTheirs>
   
   constructor( 
-    ruleSet: SDPRuleSet
+    ruleSet: SDPRuleSet<TMine, TTheirs>
   ) {
     ruleSet.mine.preProcess = ruleSet.mine.preProcess ?? passThroughProcessor;
     ruleSet.mine.postProcess = ruleSet.mine.postProcess ?? passThroughProcessor;
