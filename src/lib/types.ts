@@ -1,6 +1,6 @@
-export type StringKeyedObject = {[k: string] : any}
-export type SDPValueProcessor = (arg0: any) => any;
-export type SPDObjectProcessor = (arg0: any) => any;
+export type StringKeyedObject = Record<string, unknown>
+export type SDPValueProcessor = (arg0: unknown) => unknown;
+export type SPDObjectProcessor = (arg0: unknown) => unknown;
 
 export type FieldValueOrProcessor = string | SDPValueProcessor; 
 

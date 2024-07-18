@@ -1,8 +1,8 @@
 import { SPDObjectProcessor, ConsumerRuleSet, SDPRuleSet, StringKeyedObject, FieldValueOrProcessor } from "./types";
 
-const passThroughProcessor: SPDObjectProcessor = (arg0: any) => arg0;
+const passThroughProcessor: SPDObjectProcessor = (arg0: unknown) => arg0;
 
-export class SimpleDataProcessor {
+export class SimpleDataProcessor<TMine extends StringKeyedObject, TTheirs extends StringKeyedObject> {
   mine: ConsumerRuleSet
   theirs: ConsumerRuleSet
   
@@ -18,8 +18,8 @@ export class SimpleDataProcessor {
     this.theirs = ruleSet.theirs;
   }
 
-  convertToTheirs = (myData: StringKeyedObject): StringKeyedObject => {
-    const preProcessedData = this.theirs.preProcess!(myData);
+  convertToTheirs = (myData: TMine): TTheirs => {
+    const preProcessedData = this.theirs.preProcess!(myData) as StringKeyedObject;
 
     const mappedData = (<any>Object).entries(this.theirs.fields)
       .reduce((
@@ -42,11 +42,11 @@ export class SimpleDataProcessor {
         {} as StringKeyedObject
       );
 
-    return this.theirs.postProcess!(mappedData);
+    return this.theirs.postProcess!(mappedData) as TTheirs;
   }
 
-  convertToMine = (theirData: StringKeyedObject): StringKeyedObject => {
-    const preProcessedData = this.mine.preProcess!(theirData);
+  convertToMine = (theirData: TTheirs): TMine => {
+    const preProcessedData = this.mine.preProcess!(theirData) as StringKeyedObject;
 
     const mappedData = (<any>Object).entries(this.mine.fields)
       .reduce((
@@ -69,7 +69,7 @@ export class SimpleDataProcessor {
         {} as StringKeyedObject
       );
 
-    return this.mine.postProcess!(mappedData);
+    return this.mine.postProcess!(mappedData) as TMine;
   }
 
 }
