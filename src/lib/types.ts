@@ -1,16 +1,21 @@
-export type StringKeyedObject = Record<string, unknown>
 export type SDPValueProcessor = (arg0: unknown) => unknown;
-export type SPDObjectProcessor<TOutput extends StringKeyedObject> = (arg0: StringKeyedObject) => TOutput;
+export type SPDObjectProcessor<Input, Output> = (arg0: Input) => Output;
 
 export type FieldValueOrProcessor = string | SDPValueProcessor; 
 
-export type ConsumerRuleSet<T extends StringKeyedObject> = {
+export type ConsumerRuleSet<
+  Input extends Record<string, unknown>,
+  Output extends Record<string, unknown>
+> = {
   fields: { [k : string]: FieldValueOrProcessor};
-  postProcess?:SPDObjectProcessor<T>; // postProcess must return an object matching T
-  preProcess?:SPDObjectProcessor<StringKeyedObject>; // pre process might return some fields that are only used internally
+  postProcess?:SPDObjectProcessor<Record<string, unknown>, Output>; // postProcess must return an object matching Output
+  preProcess?:SPDObjectProcessor<Input, Record<string, unknown>>; // pre process might return some fields that are only used internally
 }
 
-export type SDPRuleSet<TMine extends StringKeyedObject, TTheirs extends StringKeyedObject> = {
- mine: ConsumerRuleSet<TMine>,
- theirs: ConsumerRuleSet<TTheirs>,
+export type SDPRuleSet<
+  Mine extends Record<string, unknown>,
+  Theirs extends Record<string, unknown>
+> = {
+ mine: ConsumerRuleSet<Theirs, Mine>,
+ theirs: ConsumerRuleSet<Mine, Theirs>,
 }

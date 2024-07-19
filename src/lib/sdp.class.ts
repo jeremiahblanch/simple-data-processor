@@ -1,30 +1,30 @@
-import type { SPDObjectProcessor, ConsumerRuleSet, SDPRuleSet, StringKeyedObject, FieldValueOrProcessor } from "./types";
+import type { SPDObjectProcessor, ConsumerRuleSet, SDPRuleSet, FieldValueOrProcessor } from "./types";
 
-const genericPassThroughProcessor: SPDObjectProcessor<StringKeyedObject> = (arg0: StringKeyedObject) => arg0;
-
-
-export class SimpleDataProcessor<TMine extends StringKeyedObject, TTheirs extends StringKeyedObject> {
-  mine: ConsumerRuleSet<TMine>
-  theirs: ConsumerRuleSet<TTheirs>
+export class SimpleDataProcessor<
+  Mine extends Record<string, unknown>,
+ Theirs extends Record<string, unknown>
+> {
+  mine: ConsumerRuleSet<Theirs, Mine>
+  theirs: ConsumerRuleSet<Mine, Theirs>
   
   constructor( 
-    ruleSet: SDPRuleSet<TMine, TTheirs>
+    ruleSet: SDPRuleSet<Mine, Theirs>
   ) {
-    ruleSet.mine.preProcess = ruleSet.mine.preProcess ?? genericPassThroughProcessor;
-    ruleSet.mine.postProcess = ruleSet.mine.postProcess ?? ((arg0: StringKeyedObject) => arg0 as TMine);
-    ruleSet.theirs.preProcess = ruleSet.theirs.preProcess ?? genericPassThroughProcessor;
-    ruleSet.theirs.postProcess = ruleSet.theirs.postProcess ?? ((arg0: StringKeyedObject) => arg0 as TTheirs);
+    ruleSet.mine.preProcess = ruleSet.mine.preProcess ?? ((arg0: Theirs) => arg0 as Record<string, unknown>);
+    ruleSet.mine.postProcess = ruleSet.mine.postProcess ?? ((arg0: Record<string, unknown>) => arg0 as Mine);
+    ruleSet.theirs.preProcess = ruleSet.theirs.preProcess ?? ((arg0: Mine) => arg0 as Record<string, unknown>);
+    ruleSet.theirs.postProcess = ruleSet.theirs.postProcess ?? ((arg0: Record<string, unknown>) => arg0 as Theirs);
 
     this.mine = ruleSet.mine;
     this.theirs = ruleSet.theirs;
   }
 
-  convertToTheirs = (myData: TMine): TTheirs => {
-    const preProcessedData = this.theirs.preProcess!(myData) as StringKeyedObject;
+  convertToTheirs = (myData: Mine): Theirs => {
+    const preProcessedData = this.theirs.preProcess!(myData);
 
     const mappedData = (<any>Object).entries(this.theirs.fields)
       .reduce((
-        acc: StringKeyedObject,
+        acc: Record<string, unknown>,
         [theirFieldName, valueProcessorOrMapping]: [string, FieldValueOrProcessor]
       ) => {
           let value;
@@ -40,18 +40,18 @@ export class SimpleDataProcessor<TMine extends StringKeyedObject, TTheirs extend
 
           return acc;
         },
-        {} as StringKeyedObject
+        {}
       );
 
-    return this.theirs.postProcess!({...myData, ...mappedData}) as TTheirs;
+    return this.theirs.postProcess!({...myData, ...mappedData});
   }
 
-  convertToMine = (theirData: TTheirs): TMine => {
-    const preProcessedData = this.mine.preProcess!(theirData) as StringKeyedObject;
+  convertToMine = (theirData: Theirs): Mine => {
+    const preProcessedData = this.mine.preProcess!(theirData);
 
     const mappedData = (<any>Object).entries(this.mine.fields)
       .reduce((
-        acc: StringKeyedObject,
+        acc: Record<string, unknown>,
         [myFieldName, valueProcessorOrMapping]: [string, FieldValueOrProcessor]
       ) => {
           let value;
@@ -67,10 +67,10 @@ export class SimpleDataProcessor<TMine extends StringKeyedObject, TTheirs extend
 
           return acc;
         }, 
-        {} as StringKeyedObject
+        {}
       );
 
-    return this.mine.postProcess!({...theirData, ...mappedData}) as TMine;
+    return this.mine.postProcess!({...theirData, ...mappedData}) as Mine;
   }
 
 }
