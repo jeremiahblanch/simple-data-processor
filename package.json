@@ -1,6 +1,6 @@
 {
   "name": "simple-data-processor",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Tool for processing data from one structure to another, for example for Object Relational Mapping (ORM)",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

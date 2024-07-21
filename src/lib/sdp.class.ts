@@ -43,7 +43,7 @@ export class SimpleDataProcessor<
         {}
       );
 
-    return this.theirs.postProcess!({...myData, ...mappedData});
+    return this.theirs.postProcess!(mappedData);
   }
 
   convertToMine = (theirData: Theirs): Mine => {
@@ -70,7 +70,7 @@ export class SimpleDataProcessor<
         {}
       );
 
-    return this.mine.postProcess!({...theirData, ...mappedData}) as Mine;
+    return this.mine.postProcess!(mappedData) as Mine;
   }
 
 }
