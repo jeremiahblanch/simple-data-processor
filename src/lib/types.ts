@@ -1,21 +1,32 @@
-export type SDPValueProcessor = (arg0: unknown) => unknown;
-export type SPDObjectProcessor<Input, Output> = (arg0: Input) => Output;
-
-export type FieldValueOrProcessor = string | SDPValueProcessor; 
+export type ValueProcessor = (
+  preProcessorOutput: Record<string | number | symbol, unknown>,
+) => unknown;
+export type ObjectProcessor<Input, Output> = (
+  preProcessorOutput: Input,
+) => Output;
 
 export type ConsumerRuleSet<
-  Input extends Record<string, unknown>,
-  Output extends Record<string, unknown>
+  Input extends Record<string | number | symbol, unknown>,
+  Output extends Record<string | number | symbol, unknown>,
 > = {
-  fields: { [k : string]: FieldValueOrProcessor};
-  postProcess?:SPDObjectProcessor<Record<string, unknown>, Output>; // postProcess must return an object matching Output
-  preProcess?:SPDObjectProcessor<Input, Record<string, unknown>>; // pre process might return some fields that are only used internally
-}
+  fields: Record<
+    string | number | symbol,
+    ValueProcessor | string | number | symbol
+  >;
+  postProcess?: ObjectProcessor<
+    Record<string | number | symbol, unknown>,
+    Output
+  >;
+  preProcess?: ObjectProcessor<
+    Input,
+    Record<string | number | symbol, unknown>
+  >;
+};
 
 export type SDPRuleSet<
-  Mine extends Record<string, unknown>,
-  Theirs extends Record<string, unknown>
+  Mine extends Record<string | number | symbol, unknown>,
+  Theirs extends Record<string | number | symbol, unknown>,
 > = {
- mine: ConsumerRuleSet<Theirs, Mine>,
- theirs: ConsumerRuleSet<Mine, Theirs>,
-}
+  mine: ConsumerRuleSet<Theirs, Mine>;
+  theirs: ConsumerRuleSet<Mine, Theirs>;
+};

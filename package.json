@@ -1,6 +1,6 @@
 {
   "name": "simple-data-processor",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Tool for processing data from one structure to another, for example for Object Relational Mapping (ORM)",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -28,6 +28,7 @@
   "author": "Jeremiah Blanch",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^9.0.1",
     "@types/jest": "^29.5.12",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.2",

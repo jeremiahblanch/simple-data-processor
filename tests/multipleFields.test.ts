@@ -1,14 +1,14 @@
-import SimpleDataProcessor from "../src";
+import SimpleDataProcessor from '../src';
 
 const myData = {
-  'f1': 'dog',
-  'f2': 'cat',
-  'f3': 17,
+  f1: 'dog',
+  f2: 'cat',
+  f3: 17,
 };
 const theirData = {
-  'fOne': 'dog',
-  'fTwo': 'cat',
-  'fThree': 17,
+  fOne: 'dog',
+  fTwo: 'cat',
+  fThree: 17,
 };
 
 const sdp = new SimpleDataProcessor({
@@ -21,14 +21,14 @@ const sdp = new SimpleDataProcessor({
   },
   theirs: {
     fields: {
-      'fOne': 'f1',
-      'fTwo': 'f2',
-      'fThree': 'f3',
+      fOne: 'f1',
+      fTwo: 'f2',
+      fThree: 'f3',
     },
-  }
+  },
 });
 
-test('correctly maps an object with multiple fields  from theirs to mine', () => {
+test('correctly maps an object with multiple fields from theirs to mine', () => {
   expect(sdp.convertToMine(theirData)).toStrictEqual(myData);
 });
 
