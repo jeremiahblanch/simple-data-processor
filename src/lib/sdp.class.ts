@@ -28,7 +28,7 @@ export class SimpleDataProcessor<
     };
   }
 
-  convertToTheirs(myData: Mine): Theirs {
+  convertToTheirs = (myData: Mine): Theirs => {
     const preProcessedData = this.theirs.preProcess!(myData);
 
     const mappedData = Object.entries(this.theirs.fields).reduce<
@@ -50,9 +50,9 @@ export class SimpleDataProcessor<
     }, {});
 
     return this.theirs.postProcess!(mappedData);
-  }
+  };
 
-  convertToMine(theirData: Theirs): Mine {
+  convertToMine = (theirData: Theirs): Mine => {
     const preProcessedData = this.mine.preProcess!(theirData);
 
     const mappedData = Object.entries(this.mine.fields).reduce<
@@ -74,5 +74,5 @@ export class SimpleDataProcessor<
     }, {});
 
     return this.mine.postProcess!(mappedData);
-  }
+  };
 }
